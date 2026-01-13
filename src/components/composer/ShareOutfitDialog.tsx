@@ -4,9 +4,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Share2, Download, Loader2, Check, Copy, Sun, Cloud, CloudRain, Snowflake } from "lucide-react";
-import { SmartShareCard } from "./SmartShareCard";
+import { Share2, Download, Loader2, Check, Copy } from "lucide-react";
+import { ShareOutfitCard } from "./ShareOutfitCard";
 import { ClothingItem } from "@/hooks/useClothes";
 import { useToast } from "@/hooks/use-toast";
 
@@ -38,9 +37,7 @@ export const ShareOutfitDialog = ({
 }: ShareOutfitDialogProps) => {
   const { toast } = useToast();
   const cardRef = useRef<HTMLDivElement>(null);
-  const [title, setTitle] = useState("Today's Look");
-  const [stylingTip, setStylingTip] = useState("");
-  const [weatherIcon, setWeatherIcon] = useState<"sun" | "cloud" | "rain" | "snow">("sun");
+  const [title, setTitle] = useState("My Curated Look");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
 
@@ -159,9 +156,7 @@ export const ShareOutfitDialog = ({
 
   const handleClose = () => {
     setGeneratedImage(null);
-    setTitle("Today's Look");
-    setStylingTip("");
-    setWeatherIcon("sun");
+    setTitle("My Curated Look");
     onOpenChange(false);
   };
 
@@ -178,61 +173,31 @@ export const ShareOutfitDialog = ({
         <div className="space-y-4">
           {/* Title Input */}
           <div className="space-y-2">
-            <Label htmlFor="outfit-title">Card Title</Label>
+            <Label htmlFor="outfit-title">Outfit Title</Label>
             <Input
               id="outfit-title"
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
-                setGeneratedImage(null);
+                setGeneratedImage(null); // Reset when title changes
               }}
-              placeholder="e.g., Today's Look, Weekend Vibes"
+              placeholder="e.g., My Tuesday Look, Candle Light Sky Blue Vibe"
               className="bg-background"
             />
           </div>
 
-          {/* Styling Tip */}
-          <div className="space-y-2">
-            <Label htmlFor="styling-tip">AI Styling Tip</Label>
-            <Input
-              id="styling-tip"
-              value={stylingTip}
-              onChange={(e) => {
-                setStylingTip(e.target.value);
-                setGeneratedImage(null);
-              }}
-              placeholder="e.g., Light blue vibes for a sunny day"
-              className="bg-background"
-            />
-          </div>
-
-          {/* Weather Icon */}
-          <div className="space-y-2">
-            <Label>Weather</Label>
-            <Select value={weatherIcon} onValueChange={(v) => { setWeatherIcon(v as any); setGeneratedImage(null); }}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="sun"><span className="flex items-center gap-2"><Sun className="w-4 h-4 text-yellow-500" /> Sunny</span></SelectItem>
-                <SelectItem value="cloud"><span className="flex items-center gap-2"><Cloud className="w-4 h-4 text-gray-500" /> Cloudy</span></SelectItem>
-                <SelectItem value="rain"><span className="flex items-center gap-2"><CloudRain className="w-4 h-4 text-blue-500" /> Rainy</span></SelectItem>
-                <SelectItem value="snow"><span className="flex items-center gap-2"><Snowflake className="w-4 h-4 text-cyan-400" /> Snowy</span></SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Hidden Card for Rendering */}
-          <div className="absolute -left-[9999px] -top-[9999px]">
-            <SmartShareCard
-              ref={cardRef}
-              title={title}
-              stylingTip={stylingTip}
-              weatherIcon={weatherIcon}
-              selectedItems={selectedItems}
-              positions={positions}
-            />
-          </div>
+          {/* Preview Card */}
+          <div className="relative">
+            <div className="flex justify-center overflow-hidden rounded-lg bg-slate-950/50 p-4">
+              <div className="transform scale-[0.75] origin-top">
+                <ShareOutfitCard
+                  ref={cardRef}
+                  title={title}
+                  selectedItems={selectedItems}
+                  positions={positions}
+                />
+              </div>
+            </div>
             
             {isGenerating && (
               <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">

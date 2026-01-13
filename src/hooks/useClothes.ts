@@ -163,9 +163,7 @@ export const useAddClothing = () => {
       // Use AI to categorize the image with full metadata
       const categorization = await categorizeMutation.mutateAsync(imageUrl);
       
-      // Insert into clothes table with AI-determined category, metadata, and user_id
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      // Insert into clothes table with AI-determined category and metadata
       const { data, error } = await supabase
         .from("clothes")
         .insert({
@@ -175,7 +173,6 @@ export const useAddClothing = () => {
           colors: categorization.colors,
           materials: categorization.materials,
           styles: categorization.styles,
-          user_id: user?.id,
         })
         .select()
         .single();
