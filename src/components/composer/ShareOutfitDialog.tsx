@@ -233,16 +233,15 @@ export const ShareOutfitDialog = ({
               positions={positions}
             />
           </div>
-            
-            {isGenerating && (
-              <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
-                <div className="flex items-center gap-2 text-purple-500">
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Generating...</span>
-                </div>
+
+          {isGenerating && (
+            <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-lg">
+              <div className="flex items-center gap-2 text-purple-500">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Generating...</span>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Generated Image Preview */}
           {generatedImage && (
