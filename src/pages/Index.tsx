@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { WardrobeTabs } from "@/components/wardrobe/WardrobeTabs";
-import { Plus, Sparkles, Heart, PenTool } from "lucide-react";
+import { Plus, Sparkles, Heart, PenTool, Calendar, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 const Index = () => {
+  const { signOut, user } = useAuth();
+  
+  const handleSignOut = async () => {
+    await signOut();
+    toast.success("Signed out");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -19,6 +27,12 @@ const Index = () => {
               </p>
             </div>
             <div className="flex items-center gap-2">
+              <Link to="/lookbook">
+                <Button variant="outline" className="gap-2 border-purple-500/50 text-purple-600 hover:bg-purple-50 hover:text-purple-700">
+                  <Calendar className="w-4 h-4" />
+                  <span className="hidden sm:inline">Lookbook</span>
+                </Button>
+              </Link>
               <Link to="/my-looks">
                 <Button variant="outline" className="gap-2">
                   <Heart className="w-4 h-4" />
@@ -26,7 +40,7 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/composer">
-                <Button variant="outline" className="gap-2 border-purple-500/50 text-purple-600 hover:bg-purple-50 hover:text-purple-700">
+                <Button variant="outline" className="gap-2">
                   <PenTool className="w-4 h-4" />
                   <span className="hidden sm:inline">Composer</span>
                 </Button>
@@ -34,10 +48,12 @@ const Index = () => {
               <Link to="/generate">
                 <Button className="bg-accent text-accent-foreground hover:bg-accent/90 gap-2">
                   <Sparkles className="w-4 h-4" />
-                  <span className="hidden sm:inline">Generate Outfit</span>
-                  <span className="sm:hidden">Outfit</span>
+                  <span className="hidden sm:inline">Generate</span>
                 </Button>
               </Link>
+              <Button variant="ghost" size="icon" onClick={handleSignOut} title="Sign Out">
+                <LogOut className="w-4 h-4" />
+              </Button>
             </div>
           </div>
         </div>
