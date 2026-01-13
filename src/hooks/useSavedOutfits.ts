@@ -71,6 +71,8 @@ export const useSaveOutfit = () => {
 
   return useMutation({
     mutationFn: async (params: SaveOutfitParams) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      
       const { data, error } = await supabase
         .from("saved_outfits")
         .insert({
@@ -83,6 +85,7 @@ export const useSaveOutfit = () => {
           ai_reasoning: params.aiReasoning || null,
           style_notes: params.styleNotes || null,
           name: params.name || null,
+          user_id: user?.id,
         })
         .select()
         .single();
