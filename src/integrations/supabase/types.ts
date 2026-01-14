@@ -14,6 +14,70 @@ export type Database = {
   }
   public: {
     Tables: {
+      calendar_outfits: {
+        Row: {
+          created_at: string
+          id: string
+          location: string | null
+          lower_body_id: string | null
+          notes: string | null
+          scheduled_date: string
+          shoes_id: string | null
+          updated_at: string
+          upper_body_id: string | null
+          user_id: string
+          weather_text: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          location?: string | null
+          lower_body_id?: string | null
+          notes?: string | null
+          scheduled_date: string
+          shoes_id?: string | null
+          updated_at?: string
+          upper_body_id?: string | null
+          user_id: string
+          weather_text?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          location?: string | null
+          lower_body_id?: string | null
+          notes?: string | null
+          scheduled_date?: string
+          shoes_id?: string | null
+          updated_at?: string
+          upper_body_id?: string | null
+          user_id?: string
+          weather_text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calendar_outfits_lower_body_id_fkey"
+            columns: ["lower_body_id"]
+            isOneToOne: false
+            referencedRelation: "clothes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_outfits_shoes_id_fkey"
+            columns: ["shoes_id"]
+            isOneToOne: false
+            referencedRelation: "clothes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_outfits_upper_body_id_fkey"
+            columns: ["upper_body_id"]
+            isOneToOne: false
+            referencedRelation: "clothes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clothes: {
         Row: {
           category: Database["public"]["Enums"]["clothing_category"]
@@ -24,6 +88,7 @@ export type Database = {
           materials: string[] | null
           styles: string[] | null
           sub_category: string | null
+          user_id: string | null
         }
         Insert: {
           category: Database["public"]["Enums"]["clothing_category"]
@@ -34,6 +99,7 @@ export type Database = {
           materials?: string[] | null
           styles?: string[] | null
           sub_category?: string | null
+          user_id?: string | null
         }
         Update: {
           category?: Database["public"]["Enums"]["clothing_category"]
@@ -44,6 +110,34 @@ export type Database = {
           materials?: string[] | null
           styles?: string[] | null
           sub_category?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -60,6 +154,7 @@ export type Database = {
           style_notes: string | null
           time_of_day: string | null
           upper_body_id: string
+          user_id: string | null
         }
         Insert: {
           ai_reasoning?: string | null
@@ -73,6 +168,7 @@ export type Database = {
           style_notes?: string | null
           time_of_day?: string | null
           upper_body_id: string
+          user_id?: string | null
         }
         Update: {
           ai_reasoning?: string | null
@@ -86,6 +182,7 @@ export type Database = {
           style_notes?: string | null
           time_of_day?: string | null
           upper_body_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
