@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Sparkles, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Sparkles, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { z } from 'zod';
 
 const authSchema = z.object({
@@ -20,7 +20,40 @@ export default function Auth() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { signIn, signUp, signInWithGoogle } = useAuth();
+  const location = useLocation();
+  const { user, loading: authLoading, signIn, signUp, signInWithGoogle, needsOnboarding } = useAuth();
+
+  // Get the intended destination or default to home
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/';
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!authLoading && user) {
+      if (needsOnboarding) {
+        navigate('/onboarding', { replace: true });
+      } else {
+        navigate(from, { replace: true });
+      }
+    }
+  }, [user, authLoading, needsOnboarding, navigate, from]);
+
+  // Show loading while checking auth status
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-auth-background via-[hsl(270,25%,10%)] to-[hsl(280,30%,8%)]">
+        <Loader2 className="w-8 h-8 animate-spin text-neon-purple" />
+      </div>
+    );
+  }
+
+  // Don't render auth form if already logged in (we're about to redirect)
+  if (user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-auth-background via-[hsl(270,25%,10%)] to-[hsl(280,30%,8%)]">
+        <Loader2 className="w-8 h-8 animate-spin text-neon-purple" />
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
