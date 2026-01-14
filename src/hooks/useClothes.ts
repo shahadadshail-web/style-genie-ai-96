@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 export type ClothingCategory = "Upper Body" | "Lower Body" | "Shoes" | "Accessories";
 
@@ -136,6 +137,7 @@ export const useCategorizeImage = () => {
 export const useAddClothing = () => {
   const queryClient = useQueryClient();
   const categorizeMutation = useCategorizeImage();
+  const { user } = useAuth();
   
   return useMutation({
     mutationFn: async ({
@@ -143,9 +145,11 @@ export const useAddClothing = () => {
     }: {
       imageFile: File;
     }) => {
-      // Upload image to storage
+      if (!user) throw new Error("You must be logged in to add clothing");
+      
+      // Upload image to storage with user folder
       const fileExt = imageFile.name.split(".").pop() || "jpg";
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
       
       const { error: uploadError } = await supabase.storage
         .from("wardrobe")
@@ -163,7 +167,7 @@ export const useAddClothing = () => {
       // Use AI to categorize the image with full metadata
       const categorization = await categorizeMutation.mutateAsync(imageUrl);
       
-      // Insert into clothes table with AI-determined category and metadata
+      // Insert into clothes table with AI-determined category, metadata, and user_id
       const { data, error } = await supabase
         .from("clothes")
         .insert({
@@ -173,6 +177,7 @@ export const useAddClothing = () => {
           colors: categorization.colors,
           materials: categorization.materials,
           styles: categorization.styles,
+          user_id: user.id,
         })
         .select()
         .single();

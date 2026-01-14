@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import AddItem from "./pages/AddItem";
 import GenerateOutfit from "./pages/GenerateOutfit";
@@ -22,14 +23,14 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/add" element={<AddItem />} />
-          <Route path="/generate" element={<GenerateOutfit />} />
-          <Route path="/outfit-results" element={<OutfitResults />} />
-          <Route path="/composer" element={<OutfitComposer />} />
-          <Route path="/my-looks" element={<MyLooks />} />
+          <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
+          <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+          <Route path="/add" element={<ProtectedRoute><AddItem /></ProtectedRoute>} />
+          <Route path="/generate" element={<ProtectedRoute><GenerateOutfit /></ProtectedRoute>} />
+          <Route path="/outfit-results" element={<ProtectedRoute><OutfitResults /></ProtectedRoute>} />
+          <Route path="/composer" element={<ProtectedRoute><OutfitComposer /></ProtectedRoute>} />
+          <Route path="/my-looks" element={<ProtectedRoute><MyLooks /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
