@@ -9,6 +9,8 @@ import GenerateOutfit from "./pages/GenerateOutfit";
 import OutfitResults from "./pages/OutfitResults";
 import OutfitComposer from "./pages/OutfitComposer";
 import MyLooks from "./pages/MyLooks";
+import Auth from "./pages/Auth";
+import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +23,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/add" element={<AddItem />} />
           <Route path="/generate" element={<GenerateOutfit />} />
           <Route path="/outfit-results" element={<OutfitResults />} />

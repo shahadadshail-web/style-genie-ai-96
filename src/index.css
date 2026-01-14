@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 /* AI Fashion Stylist Design System
-   Aesthetic: Minimalist Luxury
-   Palette: Deep Charcoal, Warm Ivory, Gold/Bronze accents
+   Aesthetic: Minimalist Luxury with Neon Accents
+   Palette: Deep Charcoal, Warm Ivory, Gold/Bronze + Neon Purple & Sky Blue
 */
 
 @layer base {
@@ -41,9 +41,17 @@
 
     --radius: 0.75rem;
 
-    /* Neon Purple for Composer */
+    /* Neon Purple for Auth & Composer */
     --neon-purple: 270 100% 65%;
     --neon-purple-glow: 270 100% 75%;
+    
+    /* Candle Light Sky Blue for Auth */
+    --sky-blue: 197 71% 73%;
+    --sky-blue-glow: 197 80% 80%;
+    
+    /* Auth-specific dark theme colors */
+    --auth-background: 270 30% 8%;
+    --auth-card: 270 25% 12%;
 
     --sidebar-background: 40 20% 98%;
     --sidebar-foreground: 220 15% 15%;

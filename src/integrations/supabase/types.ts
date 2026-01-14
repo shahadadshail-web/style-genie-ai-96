@@ -116,26 +116,38 @@ export type Database = {
       }
       profiles: {
         Row: {
+          age: number | null
           avatar_url: string | null
+          body_shape: string | null
           created_at: string
           display_name: string | null
+          height_cm: number | null
           id: string
+          onboarding_completed: boolean | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          age?: number | null
           avatar_url?: string | null
+          body_shape?: string | null
           created_at?: string
           display_name?: string | null
+          height_cm?: number | null
           id?: string
+          onboarding_completed?: boolean | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          age?: number | null
           avatar_url?: string | null
+          body_shape?: string | null
           created_at?: string
           display_name?: string | null
+          height_cm?: number | null
           id?: string
+          onboarding_completed?: boolean | null
           updated_at?: string
           user_id?: string
         }
