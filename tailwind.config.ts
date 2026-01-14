@@ -57,6 +57,18 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        neon: {
+          purple: "hsl(var(--neon-purple))",
+          "purple-glow": "hsl(var(--neon-purple-glow))",
+        },
+        sky: {
+          blue: "hsl(var(--sky-blue))",
+          "blue-glow": "hsl(var(--sky-blue-glow))",
+        },
+        auth: {
+          background: "hsl(var(--auth-background))",
+          card: "hsl(var(--auth-card))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
